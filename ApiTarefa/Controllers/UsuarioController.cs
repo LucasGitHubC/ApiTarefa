@@ -1,7 +1,9 @@
 ﻿using ApiTarefa.Model;
+using ApiTarefa.Repositorios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ApiTarefa.Controllers
 {
@@ -9,19 +11,19 @@ namespace ApiTarefa.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        private readonly IUsuarioService _usuarioService;
+        private readonly IUsuarioRepositorio _usuarioRepository;
 
-        public UsuarioController(IUsuarioService usuarioService)
+        public UsuarioController(IUsuarioRepositorio usuarioRepository)
         {
-            _usuarioService = usuarioService;
+            _usuarioRepository = usuarioRepository;
         }
 
         [HttpGet]
-        public ActionResult<List<UsuarioModel>> BuscarTodosUsuarios()
+        public async Task<ActionResult<List<UsuarioModel>>> BuscarTodosUsuarios()
         {
             try
             {
-                List<UsuarioModel> usuarios = _usuarioService.BuscarTodosUsuarios();
+                var usuarios = await _usuarioRepository.BuscarTodosUsuarios();
                 return Ok(usuarios);
             }
             catch (Exception ex)
