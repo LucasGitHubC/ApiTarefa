@@ -1,19 +1,21 @@
 ﻿using ApiTarefa.Model;
 using ApiTarefa.Repositorios.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace ApiTarefa.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController : ControllerBase
+    public class LoginUsuario : ControllerBase
     {
         private readonly IUsuarioRepositorio _usuarioRepository;
 
-        public UsuarioController(IUsuarioRepositorio usuarioRepository)
+        public LoginUsuario(IUsuarioRepositorio usuarioRepository)
         {
             _usuarioRepository = usuarioRepository;
         }
@@ -26,10 +28,11 @@ namespace ApiTarefa.Controllers
                 var usuarios = await _usuarioRepository.BuscarTodosUsuarios();
                 return Ok(usuarios);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return BadRequest(ex.Message);
+                return BadRequest($"Não há regristros no banco de dados!");
             }
-        }
+        }     
     }
+
 }

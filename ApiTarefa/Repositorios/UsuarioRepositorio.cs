@@ -49,9 +49,7 @@ namespace ApiTarefa.Repositorios
             await _dbContext.SaveChangesAsync();
 
             return usuarioPorId;
-
         }
-
 
         public async Task<bool> Apagar(int id)
         {
