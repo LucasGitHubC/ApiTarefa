@@ -1,11 +1,6 @@
 ﻿using ApiTarefa.Model;
 using ApiTarefa.Repositorios.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace ApiTarefa.Controllers
 {
@@ -23,16 +18,16 @@ namespace ApiTarefa.Controllers
         [HttpGet]
         public async Task<ActionResult<List<UsuarioModel>>> BuscarTodosUsuarios()
         {
-            try
-            {
-                var usuarios = await _usuarioRepository.BuscarTodosUsuarios();
-                return Ok(usuarios);
-            }
-            catch (Exception)
-            {
-                return BadRequest($"Não há regristros no banco de dados!");
-            }
-        }     
-    }
+            List<UsuarioModel> usuario = await _usuarioRepository.BuscarTodosUsuarios();
+            return Ok(usuario);
+        }
 
+        [HttpGet("id")]
+        public async Task<ActionResult<UsuarioModel>> BuscarPorId(int Id) 
+        {
+            UsuarioModel usuario = await _usuarioRepository.BuscarporId(Id);
+            return Ok(usuario);
+        }
+    }
 }
+

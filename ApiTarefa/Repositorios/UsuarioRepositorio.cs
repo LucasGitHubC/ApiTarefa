@@ -8,13 +8,10 @@ namespace ApiTarefa.Repositorios
     public class UsuarioRepositorio : IUsuarioRepositorio
     {
         private readonly SistemaTarefaDbContext _dbContext;
-
-        public UsuarioRepositorio(SistemaTarefaDbContext sistemaTarefaDBContext)
+        public UsuarioRepositorio(SistemaTarefaDbContext sistemaTarefaDbContext)
         {
-            _dbContext = sistemaTarefaDBContext;
+             _dbContext = sistemaTarefaDbContext;
         }
-
-
         public async Task<UsuarioModel> BuscarporId(int id)
         {
             return await _dbContext.Usuarios.FirstOrDefaultAsync(x => x.Id == id);
@@ -27,19 +24,19 @@ namespace ApiTarefa.Repositorios
 
         public async Task<UsuarioModel> Adicionar(UsuarioModel usuario)
         {
-            await _dbContext.AddAsync(usuario);
+            _dbContext.Add(usuario);
             await _dbContext.SaveChangesAsync();
 
-            return usuario;
-        }
+            return usuario; 
+        }      
 
         public async Task<UsuarioModel> Atualizar(UsuarioModel usuario, int id)
         {
             UsuarioModel usuarioPorId = await BuscarporId(id);
 
-            if (usuarioPorId == null)
+            if(usuarioPorId == null) 
             {
-                throw new Exception($"Usuário para o ID: {id} não foi encontrado no banco de dados.");
+                throw new Exception($"Usuario Por Id: {id} não encontrado no Banco de dados.");
             }
 
             usuarioPorId.Nome = usuario.Nome;
@@ -48,7 +45,7 @@ namespace ApiTarefa.Repositorios
             _dbContext.Usuarios.Update(usuarioPorId);
             await _dbContext.SaveChangesAsync();
 
-            return usuarioPorId;
+            return usuarioPorId;        
         }
 
         public async Task<bool> Apagar(int id)
@@ -57,13 +54,13 @@ namespace ApiTarefa.Repositorios
 
             if (usuarioPorId == null)
             {
-                throw new Exception($"Usuário para o ID: {id} não foi encontrado no banco de dados.");
+                throw new Exception($"Usuario Por Id: {id} não encontrado no Banco de dados.");
             }
 
             _dbContext.Usuarios.Remove(usuarioPorId);
             await _dbContext.SaveChangesAsync();
+
             return true;
         }
-
     }
 }

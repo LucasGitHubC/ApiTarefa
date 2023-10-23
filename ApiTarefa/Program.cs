@@ -2,8 +2,6 @@ using ApiTarefa.Data;
 using ApiTarefa.Repositorios;
 using ApiTarefa.Repositorios.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace ApiTarefa
 {
@@ -19,7 +17,8 @@ namespace ApiTarefa
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddDbContext<SistemaTarefaDbContext>(
+            builder.Services.AddEntityFrameworkSqlServer()
+                .AddDbContext<SistemaTarefaDbContext>(
                 options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"))
             );
 
@@ -35,10 +34,20 @@ namespace ApiTarefa
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseHttpsRedirection();
+
+            app.UseRouting();
 
             app.UseAuthorization();
 
             app.MapControllers();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             app.Run();
         }

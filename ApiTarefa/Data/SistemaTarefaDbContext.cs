@@ -7,9 +7,7 @@ namespace ApiTarefa.Data
     public class SistemaTarefaDbContext : DbContext
     {
         public SistemaTarefaDbContext(DbContextOptions<SistemaTarefaDbContext> options)
-            : base(options)
-        {
-        }
+            : base(options){}
 
         public DbSet<UsuarioModel> Usuarios { get; set; }
 
