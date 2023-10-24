@@ -28,6 +28,28 @@ namespace ApiTarefa.Controllers
             UsuarioModel usuario = await _usuarioRepository.BuscarporId(Id);
             return Ok(usuario);
         }
+
+        [HttpPost]
+        public async Task<ActionResult<UsuarioModel>> Adicionar([FromBody] UsuarioModel usuarioModel) 
+        {
+            UsuarioModel usuario = await _usuarioRepository.Adicionar(usuarioModel);
+            return Ok (usuario);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<UsuarioModel>> Atualizar([FromBody] UsuarioModel usuarioModel, int id)
+        {
+            usuarioModel.Id = id;
+            UsuarioModel usuario = await _usuarioRepository.Atualizar(usuarioModel, id);
+            return Ok(usuario);
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<UsuarioModel>> Apagar(int id) 
+        {
+            bool apagado = await _usuarioRepository.Apagar(id);
+            return Ok(apagado);
+        }
     }
 }
 
